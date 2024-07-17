@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by Qiru on 2024-06-26.
@@ -7,7 +7,10 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
+    
+    @ObservedObject var viewModel: EmojiMemoryGame
+    
     // VStack：up and down, vertical stack
     // HStack: side to side, horizontal
     // ZStack: direction towards the user
@@ -24,9 +27,14 @@ struct ContentView: View {
             title
             ScrollView{
                 cards
+                    .animation(.default, value: viewModel.cards)
             }
-            Spacer()
-            themesAdjusters
+            Button("Shuffle"){
+                viewModel.shuffle()
+
+            }
+//            Spacer()
+//            themesAdjusters
         }
         .padding()
     }
@@ -34,12 +42,15 @@ struct ContentView: View {
     
     var cards: some View{
         GeometryReader{ geometry in
-            let width = geometry.size.width / 4 - 8
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: width))]){
-                ForEach(emojis.indices, id: \.self){ index in
-                    CardView(content: emojis[index])
+            // let width = geometry.size.width / 4 - 8
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0){
+                ForEach(viewModel.cards){ card in
+                    CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
-                        .frame(width: width)
+                        .padding(4)
+                        .onTapGesture {
+                            viewModel.choose(card)
+                        }
                 }
             }
         }
@@ -64,7 +75,7 @@ struct ContentView: View {
         .imageScale(.medium)
         .font(.largeTitle)
     }
-    
+
     func themesAdjuster(by theme: String, symbol: String) -> some View{
         Button(action: {
             emojisAdjuster(of: theme)
@@ -78,7 +89,7 @@ struct ContentView: View {
             .foregroundColor(.orange)
         }
     }
-    
+
     var themesHalloween: some View{
         return themesAdjuster(by: "Halloween", symbol: "sun.max.trianglebadge.exclamationmark.fill")
     }
@@ -91,33 +102,33 @@ struct ContentView: View {
     var themesPeople: some View{
         return themesAdjuster(by: "People", symbol: "person")
     }
-    
-//    var cardsCountAdjusters: some View{
-//        HStack{
-//            cardRemover
-//            Spacer() // have space between
-//            cardAdder
-//        }
-//        .imageScale(.large)
-//        .font(.largeTitle)
-//    }
-//
-//    func cardCountAdjuster(by offset: Int, symbol: String) -> some View{
-//        Button(action: {
-//            cardCount += offset
-//        }, label: {
-//            Image(systemName: symbol)
-//        })
-//        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-//    }
-//
-//    var cardRemover: some View{
-//        return cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
-//    }
-//
-//    var cardAdder: some View{
-//        return cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
-//    }
+
+    var cardsCountAdjusters: some View{
+        HStack{
+            cardRemover
+            Spacer() // have space between
+            cardAdder
+        }
+        .imageScale(.large)
+        .font(.largeTitle)
+    }
+
+    func cardCountAdjuster(by offset: Int, symbol: String) -> some View{
+        Button(action: {
+            cardCount += offset
+        }, label: {
+            Image(systemName: symbol)
+        })
+        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+    }
+
+    var cardRemover: some View{
+        return cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
+    }
+
+    var cardAdder: some View{
+        return cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
+    }
     
     func emojisAdjuster(of theme: String){
         switch theme{
@@ -144,8 +155,14 @@ struct ContentView: View {
 }
 
 struct CardView: View{
-    let content: String
-    @State var isFaceUp = true
+//    let content: String
+//    @State var isFaceUp = true
+    
+    let card: MemoryGame<String>.Card
+    
+    init(_ card: MemoryGame<String>.Card) {
+        self.card = card
+    }
     
     var body: some View {
         ZStack{
@@ -155,18 +172,26 @@ struct CardView: View{
             Group{
                 base.foregroundColor(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text(content).font(.largeTitle)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(1, contentMode: .fit)
             }
-            .opacity(isFaceUp ? 1 : 0)
-            base.fill().opacity(isFaceUp ? 0 : 1)
+            .opacity(card.isFaceUp ? 1 : 0)
+            base.fill().opacity(card.isFaceUp ? 0 : 1)
         }
-        .onTapGesture{
-            isFaceUp.toggle() // for bool, f to t, t to f
-        }
+        // opacity是SwiftUI中的一个修饰符，用于设置视图的透明度，其值范围在0到1之间：
+        // 1表示完全不透明（视图完全可见）,0表示完全透明（视图不可见）。
+        // 也就是背面&已经match的卡片们不可见
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+
+//        .onTapGesture{
+//            isFaceUp.toggle() // for bool, f to t, t to f
+//        }
     }
 }
-struct ContentView_Previews: PreviewProvider {
+struct EmojiMemoryGameView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        EmojiMemoryGameView(viewModel: EmojiMemoryGame())
     }
 }
