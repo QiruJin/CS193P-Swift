@@ -9,6 +9,7 @@
 // 管理数据和业务逻辑。MemoryGame是核心数据模型，处理卡片状态和匹配逻辑。
 
 import Foundation
+import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: Array<Card>
@@ -41,6 +42,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     // 处理卡片选择逻辑，匹配和翻转卡片。
     // mutating才能允许修改
     mutating func choose(_ card: Card){
+        print(cards)
         // 寻找所选卡片在 cards 数组中的索引，if用于安全地解optional
         
         // 使用 firstIndex(where:) 方法查找所选卡片在 cards 数组中的索引。
@@ -65,6 +67,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         // 如果不match，前面翻出来的那张会被盖回去，要码住这是看过的牌
                         // 现在翻出来的这张暂时不会被盖回去，等到下次盖回去再标注已看过
                         cards[potentialMatchIndex].isSeen = true
+                        cards[chosenIndex].isSeen = true
                     }
                 }else{
                     // 如果没有faceup的卡片，将所选card的index设为唯一faceup的index
@@ -75,6 +78,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
 
             }
         }
+        print(cards)
     }
     
     mutating func shuffle(){
@@ -99,7 +103,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
         
         var id: String
         var debugDescription: String{
-            "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? " matched" : "")"
+            "\(id): \(content) \(isSeen ? "seen" : "new") \(isFaceUp ? "up" : "down") \(isMatched ? " matched" : "")"
         }
     }
     
@@ -110,7 +114,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
 struct Theme<CardContent>{
     let name: String
     let content: [CardContent]
-    let color: String
+    let color: Color
     let numberOfPairsOfCards: Int
 }
 

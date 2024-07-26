@@ -31,12 +31,12 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     private static let themes: [Theme<String>] = [
-        Theme(name: "Halloween", content: ["👻", "🎃", "🕷", "😈", "👾", "👁", "🧛🏼", "👺"], color: "Orange", numberOfPairsOfCards: 8),
-        Theme(name: "People", content: ["👶🏻", "👧🏻", "💂🏻‍♀️", "👮🏻‍♀️", "👩🏻‍⚕️", "👩🏻‍🌾", "👩🏻‍💻", "👩🏻‍🎓"], color: "Black", numberOfPairsOfCards: 8),
-        Theme(name: "Food", content: ["🥐", "🥯", "🥨", "🌯", "🥟", "🍨", "🍫", "🍲"], color: "Yellow", numberOfPairsOfCards: 8),
-        Theme(name: "Animal", content: ["🐶", "🦁", "🐷", "🦊", "🐰", "🐼", "🐵", "🐸"], color: "green", numberOfPairsOfCards: 8),
-        Theme(name: "Flags", content: ["🇺🇸", "🇨🇦", "🇲🇽", "🇯🇵"], color: "Red", numberOfPairsOfCards: 4),
-        Theme(name: "Sports", content: ["⚽️", "🏀", "🏈", "⚾️"], color: "Blue", numberOfPairsOfCards: 4)
+        Theme(name: "Halloween", content: ["👻", "🎃", "🕷", "😈", "👾", "👁", "🧛🏼", "👺"], color: Color.orange, numberOfPairsOfCards: 8),
+        Theme(name: "People", content: ["👶🏻", "👧🏻", "💂🏻‍♀️", "👮🏻‍♀️", "👩🏻‍⚕️", "👩🏻‍🌾", "👩🏻‍💻", "👩🏻‍🎓"], color: Color.black, numberOfPairsOfCards: 8),
+        Theme(name: "Food", content: ["🥐", "🥯", "🥨", "🌯", "🥟", "🍨", "🍫", "🍲"], color: Color.yellow, numberOfPairsOfCards: 8),
+        Theme(name: "Animal", content: ["🐶", "🦁", "🐷", "🦊", "🐰", "🐼", "🐵", "🐸"], color: Color.green, numberOfPairsOfCards: 8),
+        Theme(name: "Flags", content: ["🇺🇸", "🇨🇦", "🇲🇽", "🇯🇵"], color: Color.red, numberOfPairsOfCards: 4),
+        Theme(name: "Sports", content: ["⚽️", "🏀", "🏈", "⚾️"], color: Color.blue, numberOfPairsOfCards: 4)
         
     ]
     
@@ -62,6 +62,10 @@ class EmojiMemoryGame: ObservableObject {
     
     var score: Int {
         return model.score
+    }
+    
+    var themeColor: Color{
+        return theme.color
     }
     
     // MARK: - Intents

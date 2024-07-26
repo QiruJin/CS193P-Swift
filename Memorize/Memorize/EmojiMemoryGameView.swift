@@ -32,7 +32,7 @@ struct EmojiMemoryGameView: View {
                 themeTitle
                 Spacer()
                 score
-            }
+            }.foregroundColor(viewModel.themeColor)
             ScrollView{
                 // cards视图，添加animation
                 cards
@@ -66,7 +66,7 @@ struct EmojiMemoryGameView: View {
             }
         }
         // 设置前景色
-        .foregroundColor(.orange)
+        .foregroundColor(viewModel.themeColor)
     }
     
     var title: some View{
