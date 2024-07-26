@@ -20,30 +20,27 @@ struct EmojiMemoryGameView: View {
     // HStack: side to side, horizontal
     // ZStack: direction towards the user
     // Array<String> same as [String]
-    let emojisHalloween: Array<String> = ["👻", "🎃", "🕷", "😈", "👾", "👁", "🧛🏼", "👺"]
-    let emojisPeople: Array<String> = ["👶🏻", "👧🏻", "💂🏻‍♀️", "👮🏻‍♀️", "👩🏻‍⚕️", "👩🏻‍🌾", "👩🏻‍💻", "👩🏻‍🎓"]
-    let emojisFood: Array<String> = ["🥐", "🥯", "🥨", "🌯", "🥟", "🍨", "🍫", "🍲"]
-    let emojisAnimal: Array<String> = ["🐶", "🦁", "🐷", "🦊", "🐰", "🐼", "🐵", "🐸"]
+
     
     // @State不能在body里面声明，因为是用来管理View的状态
-    @State var cardCount: Int = 12
-    @State var emojis: Array<String> = ["👻", "🎃", "🕷", "😈", "👾", "👁", "🧛🏼", "👺"]
+
     var body: some View {
         VStack{
             // 标题视图
             title
+            HStack{
+                themeTitle
+                Spacer()
+                score
+            }
             ScrollView{
                 // cards视图，添加animation
                 cards
                     .animation(.default, value: viewModel.cards)
             }
-            // 洗牌按钮，调用 viewModel 的 shuffle 方法
-            Button("Shuffle"){
-                viewModel.shuffle()
-
+            Button("New Game"){
+                viewModel.newGame()
             }
-//            Spacer()
-//            themesAdjusters
         }
         // 增加内边距
         .padding()
@@ -57,11 +54,11 @@ struct EmojiMemoryGameView: View {
                 // 为每张card创建视图
                 ForEach(viewModel.cards){ card in
                     CardView(card)
-                        // 设置宽高比
+                    // 设置宽高比
                         .aspectRatio(2/3, contentMode: .fit)
-                        // 增加内边距
+                    // 增加内边距
                         .padding(4)
-                        // 点击卡片调用 choose 方法
+                    // 点击卡片调用 choose 方法
                         .onTapGesture {
                             viewModel.choose(card)
                         }
@@ -73,119 +70,23 @@ struct EmojiMemoryGameView: View {
     }
     
     var title: some View{
-            // 设置字体大小
-            Text("Memorize!")
+        // 设置字体大小
+        Text("Memorize!")
             .font(.largeTitle)
     }
     
-    // 定义主题调整视图
-    // @discard
-    var themesAdjusters: some View{
-        HStack{
-            themesHalloween
-            Spacer()
-            themesFood
-            Spacer()
-            themesAnimal
-            Spacer()
-            themesPeople
-        }
-        .imageScale(.medium)
-        .font(.largeTitle)
+    var themeTitle: some View{
+        // 设置字体大小
+        Text("\(viewModel.theme.name)")
+            .font(.title3)
     }
     
-    // 定义各个主题的按钮视图
-    // @discard
-    var themesHalloween: some View{
-        return themesAdjuster(by: "Halloween", symbol: "sun.max.trianglebadge.exclamationmark.fill")
+    var score: some View{
+        // 设置字体大小
+        Text("Score: \(viewModel.score)")
+            .font(.title3)
     }
-    var themesFood: some View{
-        return themesAdjuster(by: "Food", symbol: "carrot")
-    }
-    var themesAnimal: some View{
-        return themesAdjuster(by: "Animal", symbol: "pawprint")
-    }
-    var themesPeople: some View{
-        return themesAdjuster(by: "People", symbol: "person")
-    }
-
-    // 定义主题调整器函数
-    // @discard
-    func themesAdjuster(by theme: String, symbol: String) -> some View{
-        Button(action: {
-            emojisAdjuster(of: theme)
-        }){
-            VStack{
-                Image(systemName: symbol)
-                    .font(.title)
-                Text(theme)
-                    .font(.caption)
-            }
-            .foregroundColor(.orange)
-        }
-    }
-
-    // 定义卡片数量调整视图
-    // @discard
-    var cardsCountAdjusters: some View{
-        HStack{
-            cardRemover
-            Spacer() // have space between
-            cardAdder
-        }
-        .imageScale(.large)
-        .font(.largeTitle)
-    }
-
-    // 定义卡片数量调整器函数
-    // @discard
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View{
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-    }
-
-    // 定义减少卡片数量按钮
-    // @discard
-    var cardRemover: some View{
-        return cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
-    }
-
-    // 定义增加卡片数量按钮
-    // @discard
-    var cardAdder: some View{
-        return cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
-    }
-    
-    // 定义表情调整器函数
-    // @discard
-    func emojisAdjuster(of theme: String){
-        switch theme{
-        case "Halloween":
-            emojis = arrayAdjuster(emojisHalloween)
-        case "People":
-            emojis = arrayAdjuster(emojisPeople)
-        case "Animal":
-            emojis = arrayAdjuster(emojisAnimal)
-        case "Food":
-            emojis = arrayAdjuster(emojisAnimal)
-        default:
-            emojis = arrayAdjuster(emojisAnimal)
-        }
-    }
-    
-    // 定义数组调整器函数
-    // @discard
-    func arrayAdjuster(_ emojisArray: Array<String>) -> Array<String>{
-        cardCount = min(cardCount, emojisArray.count * 2)
-        let afterShuffled = emojisArray.shuffled()
-        let arraySliced = Array(afterShuffled.prefix(cardCount/2))
-        let afterSliced = arraySliced + arraySliced
-        return afterSliced.shuffled()
-    }
+        
 }
 
 // 定义卡片视图结构体，实现 View 协议
