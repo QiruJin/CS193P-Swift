@@ -6,6 +6,7 @@
 //
 
 // Model
+// 管理数据和业务逻辑。MemoryGame是核心数据模型，处理卡片状态和匹配逻辑。
 
 import Foundation
 
