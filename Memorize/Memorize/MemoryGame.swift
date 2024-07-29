@@ -39,10 +39,14 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
         set{ cards.indices.forEach{ cards[$0].isFaceUp = ($0==newValue)} }
     }
     
+    // 判断是否所有卡片都是matched
+    var isGameOver: Bool {
+        cards.allSatisfy{ $0.isMatched }
+    }
+    
     // 处理卡片选择逻辑，匹配和翻转卡片。
     // mutating才能允许修改
     mutating func choose(_ card: Card){
-        print(cards)
         // 寻找所选卡片在 cards 数组中的索引，if用于安全地解optional
         
         // 使用 firstIndex(where:) 方法查找所选卡片在 cards 数组中的索引。

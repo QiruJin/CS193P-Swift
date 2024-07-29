@@ -20,7 +20,9 @@ class EmojiMemoryGame: ObservableObject {
         // numberOfPairsOfCards: Int,
         // cardContentFactory: (Int) -> CardContent 注意(Int)是输入值，
         // 也就是这里定义的cardContentFactory是返回emojis中index的值
-        return MemoryGame(numberOfPairsOfCards: theme.numberOfPairsOfCards) { pairIndex in
+        let numberOfPairsOfCards = theme.numberOfPairsOfCards
+        let randomNumberOfPairs = Int.random(in: numberOfPairsOfCards/2 ... numberOfPairsOfCards)
+        return MemoryGame(numberOfPairsOfCards: randomNumberOfPairs) { pairIndex in
             // (Int) -> cardContent
             if shuffledEmojis.indices.contains(pairIndex){
                 return shuffledEmojis[pairIndex] // $0 is placeholder of first variable
@@ -64,6 +66,10 @@ class EmojiMemoryGame: ObservableObject {
         return model.score
     }
     
+    var isGameOver: Bool {
+        return model.isGameOver
+    }
+    
     var themeColor: Color{
         return theme.color
     }
@@ -74,7 +80,6 @@ class EmojiMemoryGame: ObservableObject {
         let initialTheme = EmojiMemoryGame.themes.randomElement()!
         theme = initialTheme
         model = EmojiMemoryGame.createMemoryGame(theme: initialTheme)
-
     }
     
     func choose(_ card: MemoryGame<String>.Card){

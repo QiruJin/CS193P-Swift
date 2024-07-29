@@ -26,13 +26,27 @@ struct EmojiMemoryGameView: View {
 
     var body: some View {
         VStack{
+            if(isGameOver){
+                gameOver
+            }else{
+                game
+            }
+        }
+        // 增加内边距
+        .padding()
+    }
+    
+    var game: some View{
+        VStack{
             // 标题视图
             title
             HStack{
                 themeTitle
                 Spacer()
                 score
-            }.foregroundColor(viewModel.themeColor)
+            }
+                .foregroundColor(viewModel.themeColor)
+                .font(.title3)
             ScrollView{
                 // cards视图，添加animation
                 cards
@@ -42,8 +56,22 @@ struct EmojiMemoryGameView: View {
                 viewModel.newGame()
             }
         }
-        // 增加内边距
-        .padding()
+    }
+    
+    var gameOver: some View{
+        VStack{
+            // 标题视图
+            title
+            Spacer()
+            Text("WIN!")
+            score
+            .font(.largeTitle)
+            .foregroundColor(viewModel.themeColor)
+            Spacer()
+            Button("New Game"){
+                viewModel.newGame()
+            }
+        }
     }
     
     // 定义cards视图
@@ -78,13 +106,15 @@ struct EmojiMemoryGameView: View {
     var themeTitle: some View{
         // 设置字体大小
         Text("\(viewModel.theme.name)")
-            .font(.title3)
     }
     
     var score: some View{
         // 设置字体大小
         Text("Score: \(viewModel.score)")
-            .font(.title3)
+    }
+    
+    var isGameOver: Bool{
+        viewModel.isGameOver
     }
         
 }
