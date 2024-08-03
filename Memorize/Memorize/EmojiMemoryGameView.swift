@@ -16,58 +16,42 @@ struct EmojiMemoryGameView: View {
     // 声明一个被观察的对象 viewModel，它是 EmojiMemoryGame 类型的实例，负责提供数据和业务逻辑。
     @ObservedObject var viewModel: EmojiMemoryGame
     
-    // VStack：up and down, vertical stack
-    // HStack: side to side, horizontal
-    // ZStack: direction towards the user
-    // Array<String> same as [String]
-    let emojisHalloween: Array<String> = ["👻", "🎃", "🕷", "😈", "👾", "👁", "🧛🏼", "👺"]
-    let emojisPeople: Array<String> = ["👶🏻", "👧🏻", "💂🏻‍♀️", "👮🏻‍♀️", "👩🏻‍⚕️", "👩🏻‍🌾", "👩🏻‍💻", "👩🏻‍🎓"]
-    let emojisFood: Array<String> = ["🥐", "🥯", "🥨", "🌯", "🥟", "🍨", "🍫", "🍲"]
-    let emojisAnimal: Array<String> = ["🐶", "🦁", "🐷", "🦊", "🐰", "🐼", "🐵", "🐸"]
     
     // @State不能在body里面声明，因为是用来管理View的状态
     @State var cardCount: Int = 12
     @State var emojis: Array<String> = ["👻", "🎃", "🕷", "😈", "👾", "👁", "🧛🏼", "👺"]
+    private let aspectRatio: CGFloat = 2/3
     var body: some View {
         VStack{
             // 标题视图
             title
-            ScrollView{
-                // cards视图，添加animation
-                cards
-                    .animation(.default, value: viewModel.cards)
-            }
+            // cards视图，添加animation
+            cards
+                .animation(.default, value: viewModel.cards)
             // 洗牌按钮，调用 viewModel 的 shuffle 方法
             Button("Shuffle"){
                 viewModel.shuffle()
 
             }
-//            Spacer()
-//            themesAdjusters
         }
         // 增加内边距
         .padding()
     }
     
     // 定义cards视图
-    var cards: some View{
-        GeometryReader{ geometry in
+    private var cards: some View{
             // let width = geometry.size.width / 4 - 8
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0){
-                // 为每张card创建视图
-                ForEach(viewModel.cards){ card in
-                    CardView(card)
-                        // 设置宽高比
-                        .aspectRatio(2/3, contentMode: .fit)
-                        // 增加内边距
-                        .padding(4)
-                        // 点击卡片调用 choose 方法
-                        .onTapGesture {
-                            viewModel.choose(card)
-                        }
-                }
+        AspectVGrid(viewModel.cards, aspectRatio: aspectRatio){ card in
+                CardView(card)
+            // 这里就是content那个closure function啦
+                    // 设置宽高比
+                    // 增加内边距 
+                    .padding(4)
+                    // 点击卡片调用 choose 方法
+                    .onTapGesture {
+                        viewModel.choose(card)
+                    }
             }
-        }
         // 设置前景色
         .foregroundColor(.orange)
     }
@@ -77,115 +61,7 @@ struct EmojiMemoryGameView: View {
             Text("Memorize!")
             .font(.largeTitle)
     }
-    
-    // 定义主题调整视图
-    // @discard
-    var themesAdjusters: some View{
-        HStack{
-            themesHalloween
-            Spacer()
-            themesFood
-            Spacer()
-            themesAnimal
-            Spacer()
-            themesPeople
-        }
-        .imageScale(.medium)
-        .font(.largeTitle)
-    }
-    
-    // 定义各个主题的按钮视图
-    // @discard
-    var themesHalloween: some View{
-        return themesAdjuster(by: "Halloween", symbol: "sun.max.trianglebadge.exclamationmark.fill")
-    }
-    var themesFood: some View{
-        return themesAdjuster(by: "Food", symbol: "carrot")
-    }
-    var themesAnimal: some View{
-        return themesAdjuster(by: "Animal", symbol: "pawprint")
-    }
-    var themesPeople: some View{
-        return themesAdjuster(by: "People", symbol: "person")
-    }
-
-    // 定义主题调整器函数
-    // @discard
-    func themesAdjuster(by theme: String, symbol: String) -> some View{
-        Button(action: {
-            emojisAdjuster(of: theme)
-        }){
-            VStack{
-                Image(systemName: symbol)
-                    .font(.title)
-                Text(theme)
-                    .font(.caption)
-            }
-            .foregroundColor(.orange)
-        }
-    }
-
-    // 定义卡片数量调整视图
-    // @discard
-    var cardsCountAdjusters: some View{
-        HStack{
-            cardRemover
-            Spacer() // have space between
-            cardAdder
-        }
-        .imageScale(.large)
-        .font(.largeTitle)
-    }
-
-    // 定义卡片数量调整器函数
-    // @discard
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View{
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-    }
-
-    // 定义减少卡片数量按钮
-    // @discard
-    var cardRemover: some View{
-        return cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
-    }
-
-    // 定义增加卡片数量按钮
-    // @discard
-    var cardAdder: some View{
-        return cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
-    }
-    
-    // 定义表情调整器函数
-    // @discard
-    func emojisAdjuster(of theme: String){
-        switch theme{
-        case "Halloween":
-            emojis = arrayAdjuster(emojisHalloween)
-        case "People":
-            emojis = arrayAdjuster(emojisPeople)
-        case "Animal":
-            emojis = arrayAdjuster(emojisAnimal)
-        case "Food":
-            emojis = arrayAdjuster(emojisAnimal)
-        default:
-            emojis = arrayAdjuster(emojisAnimal)
-        }
-    }
-    
-    // 定义数组调整器函数
-    // @discard
-    func arrayAdjuster(_ emojisArray: Array<String>) -> Array<String>{
-        cardCount = min(cardCount, emojisArray.count * 2)
-        let afterShuffled = emojisArray.shuffled()
-        let arraySliced = Array(afterShuffled.prefix(cardCount/2))
-        let afterSliced = arraySliced + arraySliced
-        return afterSliced.shuffled()
-    }
+  
 }
 
 // 定义卡片视图结构体，实现 View 协议

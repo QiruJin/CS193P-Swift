@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "CB4FE13E-28EB-48A4-A023-EC0E45B2BAC3"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AA4EE1FC-A59B-437A-A6F5-760215B70845"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Memorize/MemoryGame.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "choose(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FCADA587-E199-4747-83D9-B7C89A1347CA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Memorize/MemoryGame.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "debugDescription"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F35E60CD-3AEC-4485-8FC9-B2F8B6F859C9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Memorize/MemoryGame.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "indexOfTheOneAndOnlyFaceUpCard"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "F35E60CD-3AEC-4485-8FC9-B2F8B6F859C9 - dd1e25f55225639"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Memorize.MemoryGame.indexOfTheOneAndOnlyFaceUpCard.getter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "Memorize"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jinqiru/Desktop/CS193P-Swift/Memorize/Memorize/MemoryGame.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "F35E60CD-3AEC-4485-8FC9-B2F8B6F859C9 - ce4901ce52267c99"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; Swift.Bool in Memorize.MemoryGame.indexOfTheOneAndOnlyFaceUpCard.getter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "Memorize"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jinqiru/Desktop/CS193P-Swift/Memorize/Memorize/MemoryGame.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "148">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "323562EB-2910-43CA-9016-986D9D2613D6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Memorize/MemoryGame.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "MemoryGame"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "323562EB-2910-43CA-9016-986D9D2613D6 - 4542bb49f364e3b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Memorize.MemoryGame.indexOfTheOneAndOnlyFaceUpCard.setter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "Memorize"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jinqiru/Desktop/CS193P-Swift/Memorize/Memorize/MemoryGame.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "96">
+               </Location>
+               <Location
+                  uuid = "323562EB-2910-43CA-9016-986D9D2613D6 - 32e006e0eed790e4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; () in Memorize.MemoryGame.indexOfTheOneAndOnlyFaceUpCard.setter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "Memorize"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jinqiru/Desktop/CS193P-Swift/Memorize/Memorize/MemoryGame.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "88">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A69E7DD4-CA35-45AC-A228-20948B4285E4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Memorize/EmojiMemoryGame.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "createMemoryGame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
