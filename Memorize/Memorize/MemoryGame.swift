@@ -75,7 +75,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     // Identifiable 协议要求类型具有一个 id 属性，用于唯一标识实例
     // CustomDebugStringConvertible 协议要求类型实现一个 debugDescription 计算属性，用于提供自定义的调试描述信息。可以通过打印或调试工具查看卡片的详细状态。
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
-        var isFaceUp: Bool = false
+        var isFaceUp: Bool = true
         var isMatched: Bool = false
         let content: CardContent
         
