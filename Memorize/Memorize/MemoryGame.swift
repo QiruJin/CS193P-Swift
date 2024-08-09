@@ -12,11 +12,12 @@ import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: Array<Card>
+    private(set) var score = 0
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent){
         cards = Array<Card>()
         // add numberOfPairsOfCards * 2 cards
-        for pairIndex in 0..<max(2, numberOfPairsOfCards) {
+        for pairIndex in 0..<max(2  , numberOfPairsOfCards) {
             let content = cardContentFactory(pairIndex)
             cards.append(Card(content: content, id: "\(pairIndex+1)a"))
             cards.append(Card(content: content, id: "\(pairIndex+1)b"))
@@ -54,6 +55,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         // 如果match，将两张cards标记为matched
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
+                        score += 2
+                    }
+                    else{
+                        if cards[chosenIndex].hasBeenSeen{
+                            score -= 1
+                        }
+                        if cards[potentialMatchIndex].hasBeenSeen{
+                            score -= 1
+                        }
                     }
                 }else{
                     // 如果没有faceup的卡片，将所选card的index设为唯一faceup的index
@@ -75,7 +85,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     // Identifiable 协议要求类型具有一个 id 属性，用于唯一标识实例
     // CustomDebugStringConvertible 协议要求类型实现一个 debugDescription 计算属性，用于提供自定义的调试描述信息。可以通过打印或调试工具查看卡片的详细状态。
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
-        var isFaceUp: Bool = true
+        var isFaceUp: Bool = false{
+            // 当 isFaceUp 的值发生改变时，didSet 观察器会被触发。
+            didSet{
+                // 如果卡片之前是正面朝上 (oldValue 是 true)，而现在翻到背面 (isFaceUp 是 false)，则满足条件。
+                if oldValue && !isFaceUp{
+                    hasBeenSeen = true
+                }
+            }
+        }
+        var hasBeenSeen: Bool = false
         var isMatched: Bool = false
         let content: CardContent
         

@@ -13,6 +13,8 @@ import SwiftUI
 // 定义 EmojiMemoryGameView 结构体，实现 View 协议
 struct EmojiMemoryGameView: View {
     
+    typealias Card = MemoryGame<String>.Card
+    
     // 声明一个被观察的对象 viewModel，它是 EmojiMemoryGame 类型的实例，负责提供数据和业务逻辑。
     @ObservedObject var viewModel: EmojiMemoryGame
     
@@ -32,16 +34,29 @@ struct EmojiMemoryGameView: View {
                 .animation(.default, value: viewModel.cards)
             // 设置前景色
                 .foregroundColor(.orange)
-            // 洗牌按钮，调用 viewModel 的 shuffle 方法
-            Button("Shuffle"){
-                viewModel.shuffle()
-
+            HStack{
+                score
+                Spacer()
+                shuffle
             }
         }
         // 增加内边距
         .padding()
     }
     
+    private var score : some View{
+        Text("Score: \(viewModel.score)")
+        // do not animate this view
+            .animation(nil)
+    }
+    
+    // 洗牌按钮，调用 viewModel 的 shuffle 方法
+    private var shuffle : some View{
+        Button("Shuffle"){
+            withAnimation{viewModel.shuffle()}
+        }
+    }
+
     // 定义cards视图
     private var cards: some View{
             // let width = geometry.size.width / 4 - 8
@@ -51,9 +66,12 @@ struct EmojiMemoryGameView: View {
                     // 设置宽高比
                     // 增加内边距 
                     .padding(spacing)
+                    .overlay(FlyingNumber(number: scoreChange(causeBy: card)))
                     // 点击卡片调用 choose 方法
                     .onTapGesture {
-                        viewModel.choose(card)
+                        withAnimation{
+                            viewModel.choose(card)
+                        }
                     }
             }
     }
@@ -63,7 +81,10 @@ struct EmojiMemoryGameView: View {
             Text("Memorize!")
             .font(.largeTitle)
     }
-  
+
+    private func scoreChange(causeBy card: Card) -> Int{
+        return 0
+    }
 }
 
 
