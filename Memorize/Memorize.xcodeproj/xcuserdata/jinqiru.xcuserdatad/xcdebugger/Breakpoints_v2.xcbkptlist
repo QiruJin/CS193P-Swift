@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FCADA587-E199-4747-83D9-B7C89A1347CA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Memorize/MemoryGame.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "debugDescription"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "F35E60CD-3AEC-4485-8FC9-B2F8B6F859C9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
