@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93A8A0B82C7306CA008C1FAC /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8A0B72C7306CA008C1FAC /* SetGameView.swift */; };
 		93C49E992C6E8A55009A1876 /* SetGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49E982C6E8A55009A1876 /* SetGameApp.swift */; };
 		93C49E9D2C6E8A57009A1876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93C49E9C2C6E8A57009A1876 /* Assets.xcassets */; };
 		93C49EA02C6E8A57009A1876 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93C49E9F2C6E8A57009A1876 /* Preview Assets.xcassets */; };
 		93C49EA72C6E8A7D009A1876 /* SetGameVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49EA62C6E8A7D009A1876 /* SetGameVM.swift */; };
-		93C49EA92C6E8A97009A1876 /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49EA82C6E8A97009A1876 /* SetGameView.swift */; };
 		93C49EAB2C6E8AB8009A1876 /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49EAA2C6E8AB8009A1876 /* SetCardView.swift */; };
 		93C49EAD2C6E8AD7009A1876 /* ShapeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49EAC2C6E8AD7009A1876 /* ShapeExtensions.swift */; };
 		93C49EAF2C6EA214009A1876 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49EAE2C6EA214009A1876 /* SetGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		93A8A0B72C7306CA008C1FAC /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
 		93C49E952C6E8A55009A1876 /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C49E982C6E8A55009A1876 /* SetGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameApp.swift; sourceTree = "<group>"; };
 		93C49E9C2C6E8A57009A1876 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93C49E9F2C6E8A57009A1876 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		93C49EA62C6E8A7D009A1876 /* SetGameVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameVM.swift; sourceTree = "<group>"; };
-		93C49EA82C6E8A97009A1876 /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
 		93C49EAA2C6E8AB8009A1876 /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SetCardView.swift; path = "Preview Content/SetCardView.swift"; sourceTree = "<group>"; };
 		93C49EAC2C6E8AD7009A1876 /* ShapeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeExtensions.swift; sourceTree = "<group>"; };
 		93C49EAE2C6EA214009A1876 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
@@ -60,12 +60,12 @@
 			isa = PBXGroup;
 			children = (
 				93C49EAA2C6E8AB8009A1876 /* SetCardView.swift */,
+				93A8A0B72C7306CA008C1FAC /* SetGameView.swift */,
 				93C49EAE2C6EA214009A1876 /* SetGame.swift */,
 				93C49E982C6E8A55009A1876 /* SetGameApp.swift */,
 				93C49EA62C6E8A7D009A1876 /* SetGameVM.swift */,
 				93C49E9C2C6E8A57009A1876 /* Assets.xcassets */,
 				93C49E9E2C6E8A57009A1876 /* Preview Content */,
-				93C49EA82C6E8A97009A1876 /* SetGameView.swift */,
 				93C49EAC2C6E8AD7009A1876 /* ShapeExtensions.swift */,
 			);
 			path = SetGame;
@@ -150,11 +150,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				93C49EAB2C6E8AB8009A1876 /* SetCardView.swift in Sources */,
-				93C49EA92C6E8A97009A1876 /* SetGameView.swift in Sources */,
 				93C49EA72C6E8A7D009A1876 /* SetGameVM.swift in Sources */,
 				93C49E992C6E8A55009A1876 /* SetGameApp.swift in Sources */,
 				93C49EAF2C6EA214009A1876 /* SetGame.swift in Sources */,
 				93C49EAD2C6E8AD7009A1876 /* ShapeExtensions.swift in Sources */,
+				93A8A0B82C7306CA008C1FAC /* SetGameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
