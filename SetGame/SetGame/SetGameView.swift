@@ -15,7 +15,7 @@ struct SetGameView: View {
     var body: some View {
         VStack{
             title
-            
+            cards
             HStack{
                 threeMoreCard
                 Spacer()
@@ -24,6 +24,19 @@ struct SetGameView: View {
         }
     }
     
+    private var cards: some View{
+        AspectVGrid(setVM.cards, aspectRatio: 2/3){ card in
+            SetCardView(card)
+                .padding(5)
+            // 点击卡片时的逻辑
+                .onTapGesture {
+                    setVM.chooseCard(card)
+                }
+        }
+    }
+    
+    
+    // internal,可以被外部代码访问
     var title: some View{
         Text("Set Game")
             .font(.largeTitle)

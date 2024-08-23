@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9347940F2C77D04600A8A87E /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9347940E2C77D04600A8A87E /* AspectVGrid.swift */; };
 		93A8A0B82C7306CA008C1FAC /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8A0B72C7306CA008C1FAC /* SetGameView.swift */; };
 		93C49E992C6E8A55009A1876 /* SetGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C49E982C6E8A55009A1876 /* SetGameApp.swift */; };
 		93C49E9D2C6E8A57009A1876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93C49E9C2C6E8A57009A1876 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9347940E2C77D04600A8A87E /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		93A8A0B72C7306CA008C1FAC /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
 		93C49E952C6E8A55009A1876 /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93C49E982C6E8A55009A1876 /* SetGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameApp.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			children = (
 				93C49EAA2C6E8AB8009A1876 /* SetCardView.swift */,
 				93A8A0B72C7306CA008C1FAC /* SetGameView.swift */,
+				9347940E2C77D04600A8A87E /* AspectVGrid.swift */,
 				93C49EAE2C6EA214009A1876 /* SetGame.swift */,
 				93C49E982C6E8A55009A1876 /* SetGameApp.swift */,
 				93C49EA62C6E8A7D009A1876 /* SetGameVM.swift */,
@@ -151,6 +154,7 @@
 			files = (
 				93C49EAB2C6E8AB8009A1876 /* SetCardView.swift in Sources */,
 				93C49EA72C6E8A7D009A1876 /* SetGameVM.swift in Sources */,
+				9347940F2C77D04600A8A87E /* AspectVGrid.swift in Sources */,
 				93C49E992C6E8A55009A1876 /* SetGameApp.swift in Sources */,
 				93C49EAF2C6EA214009A1876 /* SetGame.swift in Sources */,
 				93C49EAD2C6E8AD7009A1876 /* ShapeExtensions.swift in Sources */,
