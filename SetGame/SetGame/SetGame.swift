@@ -54,15 +54,15 @@ struct SetGame{
         // where 子句用于检查每张卡片的 id 是否与所选卡片的 id 相同。
         // 如果找到了相应的索引，则将其赋值给 chosenIndex
         if let choosenIndex = cardsInPlay.firstIndex(where: {$0.id == card.id}){
-            // 如果点击的已选择卡片则取消选择, 未选择卡片则添加入已选择卡片
+            // 如果点击的卡片已经在select list中则取消选择, 未选择卡片则添加入list
             //----------//
             print(card.debugDescription)
             //----------//
-            if selectedCards.contains(cardsInPlay[choosenIndex]){
+            if let selectedIndex = selectedCards.firstIndex(where: {$0.id == card.id}){
                 cardsInPlay[choosenIndex].isSeleted = false
-                selectedCards.removeAll(where: {$0.id==card.id})
+                selectedCards.remove(at: selectedIndex)
                 //----------//
-                print("already in:", card.debugDescription)
+                print("already in:")
                 printSelect()
                 //----------//
             }else{
@@ -79,23 +79,37 @@ struct SetGame{
                     print("is 3 now")
                     printSelect()
                     if isSet(selectedCards){
+                        print("here, matched!")
                         // 如果符合set，添加进符合要求的牌堆
                         matchedCards.append(contentsOf: selectedCards)
                         // 并且移除这三张卡并替换成新的（如果牌堆里还有的话）
                         replaceAndRemoveMatchedCards()
+                        printMatch()
                     }
                     // no matter matched or not, 这个set选择过程结束，换新的牌
+                    print("uhhh, not match")
+                    removeUnmatchedCards()
                     selectedCards.removeAll()
                 }
             }
         }
     }
     func printSelect(){
+        print("------------printSelect----------")
         print(selectedCards.count)
         for card in selectedCards{
             print(card.debugDescription)
         }
     }
+    
+    func printMatch(){
+        print("------------printMatch----------")
+        print(matchedCards.count)
+        for card in matchedCards{
+            print(card.debugDescription)
+        }
+    }
+    
     // 开始新游戏，重新初始化卡片状态
     mutating func startNewGame(){
         // 初始化牌堆和牌桌
@@ -124,22 +138,21 @@ struct SetGame{
                     (colorSet.count == 1 || colorSet.count == 3) &&
                     (numberSet.count == 1 || numberSet.count == 3) &&
                     (shadingSet.count == 1 || shadingSet.count == 3)
-
         return isSet
     }
     
-    // replace matched card in cardInPlay
-    mutating func replaceAndRemoveMatchedCards(){
+    // remove selected card if they are not matched
+    mutating func removeUnmatchedCards(){
         for card in selectedCards{
+            // 如果在牌桌上能找到这张牌，移除它，并且补充它
             if let index = cardsInPlay.firstIndex(where: {$0.id == card.id}){
                 cardsInPlay[index].isSeleted = false
             }
-            selectedCards.removeAll()
         }
     }
     
     // replace matched card in cardInPlay
-    mutating func removeSelectedCards(){
+    mutating func replaceAndRemoveMatchedCards(){
         for card in selectedCards{
             // 如果在牌桌上能找到这张牌，移除它，并且补充它
             if let index = cardsInPlay.firstIndex(where: {$0.id == card.id}){
@@ -197,7 +210,7 @@ struct SetGame{
         }
         
         var debugDescription: String{
-            "\(id): \(symbol) \(number) \(shading) \(isSeleted ? "selected" : "noselect") \(isMatched ? "matched" : "noMatch") "
+            "\(id): \(color) \(symbol) \(number) \(shading) \(isSeleted ? "selected" : "noselect") \(isMatched ? "matched" : "noMatch") "
         }
         
         // 生成所有可能的卡片组合

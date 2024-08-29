@@ -54,7 +54,6 @@ struct SetCardView: View {
                     .opacity(opacityForCard(card))
                     // 设置符号的大小
                     .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.2)
-
             }
         }
     }
