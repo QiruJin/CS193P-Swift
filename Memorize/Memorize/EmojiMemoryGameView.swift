@@ -66,15 +66,21 @@ struct EmojiMemoryGameView: View {
                     // 设置宽高比
                     // 增加内边距 
                     .padding(spacing)
+                    // 添加覆盖层显示得分
                     .overlay(FlyingNumber(number: scoreChange(causeBy: card)))
+                    // zIndex越大视图就在越前面，如果这张卡片造成score变化，zIndex变大
+                    .zIndex(scoreChange(causeBy: card) != 0 ? 1 : 0)
                     // 点击卡片调用 choose 方法
                     .onTapGesture {
-                        withAnimation{
-                            viewModel.choose(card)
-                        }
+                        choose(card)
                     }
             }
     }
+    
+    // tuple type
+    // 跟踪最近一次分数变化及其原因
+    // @State能够自动监测
+    @State private var lastScoreChange = (0, causedByCardId: "")
     
     var title: some View{
             // 设置字体大小
@@ -82,8 +88,19 @@ struct EmojiMemoryGameView: View {
             .font(.largeTitle)
     }
 
+    // choose card时的动画变化，可以直接复制粘贴到cards中，但是提出来简化代码
+    private func choose(_ card: Card){
+        withAnimation{
+            let scoreBeforeChoosing = viewModel.score
+            viewModel.choose(card)
+            let scoreChange = viewModel.score - scoreBeforeChoosing
+            lastScoreChange = (scoreChange, causedByCardId: card.id)
+        }
+    }
+    // 只有在卡片是导致分数变化的那一张时显示分数
     private func scoreChange(causeBy card: Card) -> Int{
-        return 0
+        let (amount, id) = lastScoreChange
+        return card.id == id ? amount : 0 
     }
 }
 

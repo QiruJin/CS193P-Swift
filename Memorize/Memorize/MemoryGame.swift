@@ -55,7 +55,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         // 如果match，将两张cards标记为matched
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
-                        score += 2
+                        // 除了基础得分还有bonus得分（来自两张卡）
+                        score += 2 + cards[chosenIndex].bonus + cards[potentialMatchIndex].bonus
                     }
                     else{
                         if cards[chosenIndex].hasBeenSeen{
@@ -71,7 +72,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                 }
                 // 翻转当前card
                 cards[chosenIndex].isFaceUp = true
-
+                
             }
         }
     }
@@ -88,6 +89,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
         var isFaceUp: Bool = false{
             // 当 isFaceUp 的值发生改变时，didSet 观察器会被触发。
             didSet{
+                if isFaceUp{
+                    startUsingBonusTime()
+                } else{
+                    stopUsingBonusTime()
+                }
                 // 如果卡片之前是正面朝上 (oldValue 是 true)，而现在翻到背面 (isFaceUp 是 false)，则满足条件。
                 if oldValue && !isFaceUp{
                     hasBeenSeen = true
@@ -95,12 +101,70 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
             }
         }
         var hasBeenSeen: Bool = false
-        var isMatched: Bool = false
+        var isMatched: Bool = false {
+            // 当 isMatched 的值发生改变时，didSet 观察器会被触发。
+            didSet {
+                // 如果match就不会facedown了，所以记得停止计算bonus
+                if isMatched {
+                    stopUsingBonusTime()
+                }
+            }
+        }
         let content: CardContent
         
         var id: String
         var debugDescription: String{
             "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? " matched" : "")"
+        }
+        
+        // MARK: - Bonus Time
+        
+        // 只有在这个时间内才能得到bonus
+        var bonusTimeLimit: TimeInterval = 6
+        
+        // 最近一次card face up的时候
+        var lastFaceUpDate: Date?
+        
+        // 这张牌过去face up的总时间
+        var pastFaceUpTime: TimeInterval = 0
+        
+        // 计算这张牌总共face up的时间
+        // 即过去face up的时间和现在face up的时间
+        var faceUpTime: TimeInterval{
+            // 如果当前卡牌朝上，这个值不会是nil，那么需要计算之前+当下的时间
+            if let lastFaceUpDate {
+                return pastFaceUpTime + Date().timeIntervalSince(lastFaceUpDate)
+            } else {
+                return pastFaceUpTime
+            }
+        }
+        
+        // 还剩下的bonus百分比
+        var bonusPercentRemaining: Double {
+            bonusTimeLimit > 0 ? max(0, bonusTimeLimit - faceUpTime)/bonusTimeLimit : 0
+        }
+        
+        // 目前为止得到的附加分
+        // 看牌时间越长，bonus越少
+        var bonus: Int{
+            Int(bonusTimeLimit * bonusPercentRemaining)
+        }
+        
+        // 当这张牌从down到up，开始这张牌的bonus计算时间
+        private mutating func startUsingBonusTime(){
+            // 计算有意义的前提是这张牌刚被faceUp（faceUp & lastFaceUpdate == nil表示刚翻过来，防止重复计算）
+            // 还有它还没被match，剩余的奖励时间不为空
+            if isFaceUp && !isMatched && bonusPercentRemaining > 0, lastFaceUpDate == nil {
+                lastFaceUpDate = Date()
+            }
+        }
+        
+        // 当这张牌从up到down，结束这张牌此次的bonus计算时间
+        private mutating func stopUsingBonusTime(){
+            // 记录这张牌目前为止的faceUp时间
+            pastFaceUpTime = faceUpTime
+            // 重置
+            lastFaceUpDate = nil
         }
     }
 }

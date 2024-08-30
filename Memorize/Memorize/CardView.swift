@@ -22,28 +22,32 @@ struct CardView: View{
     }
     
     var body: some View {
-        Pie(endAngle: .degrees(240))
-            .opacity(Constants.Pie.opacity)
-            .overlay(
-                Text(card.content)
-                    .font(.system(size: Constants.FontSize.largest))
-                    .minimumScaleFactor(Constants.FontSize.scaleFactor)
-                    .aspectRatio(1, contentMode: .fit)
-                    .multilineTextAlignment(.center)
-                    .padding(Constants.Pie.inset)
-                    .rotationEffect(.degrees(card.isMatched ? 360 : 0))
-                // only to affect rotationEffect animation: add duration
-                // autoreverse: false 是为了一直转圈圈而不是转一下反方向继续转
-                // implicit 和 explicit互相independent不影响
-                    .animation(.spin(duration: 1), value: card.isMatched)
-            )
-            .padding(Constants.inset)
-        // 用modifier可以有更多的动画？
-            .cardify(isFaceUp: card.isFaceUp)
-        // opacity是SwiftUI中的一个修饰符，用于设置视图的透明度，其值范围在0到1之间：
-        // 1表示完全不透明（视图完全可见）,0表示完全透明（视图不可见）。
-        // 也就是背面&已经match的卡片们不可见
-            .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+        // 用TimelineView可展示view，minimumInterval不需要每毫秒都有animation，节省资源
+        TimelineView(.animation(minimumInterval: 1/5)) { timeline in
+            Pie(endAngle: .degrees(card.bonusPercentRemaining * 360))
+                .opacity(Constants.Pie.opacity)
+                .overlay(
+                    Text(card.content)
+                        .font(.system(size: Constants.FontSize.largest))
+                        .minimumScaleFactor(Constants.FontSize.scaleFactor)
+                        .aspectRatio(1, contentMode: .fit)
+                        .multilineTextAlignment(.center)
+                        .padding(Constants.Pie.inset)
+                        .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+                    // only to affect rotationEffect animation: add duration
+                    // autoreverse: false 是为了一直转圈圈而不是转一下反方向继续转
+                    // implicit 和 explicit互相independent不影响
+                        .animation(.spin(duration: 1), value: card.isMatched)
+                )
+                .padding(Constants.inset)
+            // 用modifier可以有更多的动画？
+                .cardify(isFaceUp: card.isFaceUp)
+            // opacity是SwiftUI中的一个修饰符，用于设置视图的透明度，其值范围在0到1之间：
+            // 1表示完全不透明（视图完全可见）,0表示完全透明（视图不可见）。
+            // 也就是背面&已经match的卡片们不可见
+                .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+        }
+
     }
     
     private struct Constants{
