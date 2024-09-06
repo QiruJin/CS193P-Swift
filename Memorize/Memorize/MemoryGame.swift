@@ -55,7 +55,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         // 如果match，将两张cards标记为matched
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
-                        // 除了基础得分还有bonus得分（来自两张卡）
+                        // 除了基础得分还有bonus得分（来自两张卡 ）
                         score += 2 + cards[chosenIndex].bonus + cards[potentialMatchIndex].bonus
                     }
                     else{

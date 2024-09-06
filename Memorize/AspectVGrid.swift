@@ -18,7 +18,9 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
     
     // @escaping 闭包会在函数返回后某个时间点执行，而不是立即执行。
     // 这里的 content 被标记为 @escaping，因为它会在 AspectVGrid 的 body 中被多次调用，而不仅仅是在初始化时调用。这意味着 content 闭包在初始化 AspectVGrid 之后的生命周期中可能会被多次使用和调用。
-    init(_ items: [Item], aspectRatio: CGFloat, content: @escaping (Item) -> ItemView) {
+    // 用ViewBuilder允许content返回不同的view而不仅仅是some view
+    init(_ items: [Item], aspectRatio: CGFloat, @ViewBuilder content:
+        @escaping (Item) -> ItemView) {
         self.items = items
         self.aspectRatio = aspectRatio
         self.content = content
@@ -54,13 +56,13 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
         repeat{
             let width = size.width / columnCount
             let height = width / aspectRatio
+            
             let rowCount = (count / columnCount).rounded(.up)
-
             if rowCount * height < size.height {
                 return (size.width / columnCount).rounded(.down)
             }
             columnCount += 1
-        }while columnCount <= count
+        } while columnCount <= count
         return min(size.width / count, size.height * aspectRatio).rounded(.down)
     }
 }

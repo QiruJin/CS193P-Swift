@@ -15,7 +15,7 @@ struct FlyingNumber: View {
         if number != 0{
             // same as ("\(number)")
             // .sign用来显示正负号, always才会有+号
-            Text(number, format: .number.sign(strategy: .always()))
+            Text(number, format: .number.sign(strategy: .always() ))
                 .font(.largeTitle)
                 .foregroundColor(number < 0 ? .red : .green)
             // 添加阴影效果， 模糊半径， 偏移量
@@ -31,6 +31,7 @@ struct FlyingNumber: View {
                 }
             // 设置了appear记得设置onDisappear去重制一些参数
             // 否则offset没有重置下次在同一张卡上就不会出现
+            // reset back to the zero
                 .onDisappear{
                     offset = 0
                 }
