@@ -33,9 +33,11 @@ struct EmojiMemoryGameView: View {
             cards
                 .animation(.default, value: viewModel.cards)
             // 设置前景色
-                .foregroundColor(.orange)
+                .foregroundColor(viewModel.color)
             HStack{
                 score
+                Spacer()
+                deck.foregroundColor(viewModel.color)
                 Spacer()
                 shuffle
             }
@@ -43,6 +45,11 @@ struct EmojiMemoryGameView: View {
         // 增加内边距
         .padding()
     }
+        
+    // tuple type
+    // 跟踪最近一次分数变化及其原因
+    // @State能够自动监测
+    @State private var lastScoreChange = (0, causedByCardId: "")
     
     private var score : some View{
         Text("Score: \(viewModel.score)")
@@ -61,20 +68,74 @@ struct EmojiMemoryGameView: View {
     private var cards: some View{
             // let width = geometry.size.width / 4 - 8
         AspectVGrid(viewModel.cards, aspectRatio: aspectRatio){ card in
-                CardView(card)
+            if isDealt(card){
+                view(for: card)
             // 这里就是content那个closure function啦
                     // 设置宽高比
-                    // 增加内边距 
+                    // 增加内边距
                     .padding(spacing)
+                    // 添加覆盖层显示得分
                     .overlay(FlyingNumber(number: scoreChange(causeBy: card)))
+                    // zIndex越大视图就在越前面，如果这张卡片造成score变化，zIndex变大
+                     .zIndex(scoreChange(causeBy: card) != 0 ? 1 : 0)
                     // 点击卡片调用 choose 方法
                     .onTapGesture {
-                        withAnimation{
-                            viewModel.choose(card)
-                        }
+                        choose(card)
                     }
             }
+        }
     }
+    
+    // 用来识别不同view中的元素
+    // @是property Wrappers的语法标志
+    @Namespace private var dealingNamespace
+    
+    private func view(for card: Card) -> some View {
+        CardView(card)
+            .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+            .transition(.asymmetric(insertion: .identity, removal: .identity))
+    }
+    
+    @State private var dealt = Set<Card.ID>()
+    
+    private func isDealt(_ card: Card) -> Bool{
+        dealt.contains(card.id)
+    }
+    
+    private var undealtCards: [Card] {
+        viewModel.cards.filter { !isDealt($0) }
+    }
+    
+    // a deck use to deal the card
+    private var deck: some View{
+        ZStack{
+            ForEach(undealtCards) {card in
+                CardView(card)
+                // 让两个view共享一个animation
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+        }
+        .frame(width: deckWidth, height: deckWidth / aspectRatio)
+        .onTapGesture {
+            deal()
+        }
+    }
+    
+    private func deal(){
+        var delay: TimeInterval = 0
+        // deal the cards
+        for card in viewModel.cards{
+            withAnimation(dealAnimation.delay(delay)){
+                _ = dealt.insert(card.id)
+            }
+            delay += dealInterval
+        }
+    }
+    
+    private let dealAnimation: Animation = .easeInOut(duration: 1)
+    private let dealInterval: TimeInterval = 0.15
+    private let deckWidth: CGFloat = 50
     
     var title: some View{
             // 设置字体大小
@@ -82,8 +143,20 @@ struct EmojiMemoryGameView: View {
             .font(.largeTitle)
     }
 
+    // choose card时的动画变化，可以直接复制粘贴到cards中，但是提出来简化代码
+    private func choose(_ card: Card){
+        withAnimation{
+            let scoreBeforeChoosing = viewModel.score
+            viewModel.choose(card)
+            let scoreChange = viewModel.score - scoreBeforeChoosing
+            lastScoreChange = (scoreChange, causedByCardId: card.id)
+        }
+    }
+    
+    // 只有在卡片是导致分数变化的那一张时显示分数 
     private func scoreChange(causeBy card: Card) -> Int{
-        return 0
+        let (amount, causedByCardId: id) = lastScoreChange
+        return card.id == id ? amount : 0
     }
 }
 
