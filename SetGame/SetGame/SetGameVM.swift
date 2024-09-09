@@ -27,6 +27,14 @@ class SetGameVM: ObservableObject{
         setGame.cardsInPlay
     }
     
+    var discardPile: [Card]{
+        setGame.matchedCards
+    }
+    
+    var deck: [Card]{
+        setGame.deck
+    }
+    
     // 用户点击“deal 3 more cards”按钮
     func dealThreeMoreCards(){
         setGame.dealThreeCards()
@@ -40,5 +48,9 @@ class SetGameVM: ObservableObject{
     // 用户点击卡片
     func chooseCard(_ card: Card){
         setGame.chooseCard(card: card)
+    }
+    
+    func shuffle(){
+        setGame.shuffle()
     }
 }

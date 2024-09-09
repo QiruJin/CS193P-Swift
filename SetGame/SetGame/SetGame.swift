@@ -44,6 +44,10 @@ struct SetGame{
         dealCards(count: count)
     }
     
+    mutating func shuffle(){
+        cardsInPlay.shuffle()
+    }
+    
     // 处理被选择的卡片，将其添加进合适的列表，并更改它的信息
     // 如果点击的已选择卡片则取消选择, 未选择卡片则添加入已选择卡片
     // 选了3张卡即开始判断并处理牌堆
@@ -158,12 +162,8 @@ struct SetGame{
             if let index = cardsInPlay.firstIndex(where: {$0.id == card.id}){
                 cardsInPlay[index].isSeleted = false
                 cardsInPlay[index].isMatched = true
-                // 如果牌堆没空，补充牌
-                if !deck.isEmpty{
-                    cardsInPlay[index] = deck.popLast()!
-                }else{
-                    cardsInPlay.remove(at: index)
-                }
+                // 卡牌移出桌面
+                cardsInPlay.remove(at: index)
             }
         }
     }

@@ -14,10 +14,14 @@ struct SetGameView: View {
     
     var body: some View {
         VStack{
+            // HStack{title, discard pile}
             title
             cards
             HStack{
-                threeMoreCard
+                // deck instead of +3
+                deck
+                Spacer()
+                shuffle
                 Spacer()
                 newGame
             }
@@ -35,6 +39,26 @@ struct SetGameView: View {
         }
     }
     
+    // 用来识别不同view中的元素
+    // @是property Wrappers的语法标志
+    @Namespace private var dealingNamespace
+    private let deckWidth: CGFloat = 50
+    private let aspectRatio: CGFloat = 2/3
+    
+    // deck显示未发放的卡牌的牌堆，背面朝上
+    private var deck: some View{
+        ZStack{
+            ForEach(setVM.deck){ card in
+                SetCardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+            .frame(width: deckWidth, height: deckWidth / aspectRatio)
+            .onTapGesture {
+                setVM.dealThreeMoreCards() // 点击牌堆时发三张牌
+            }
+        }
+    }
     
     // internal,可以被外部代码访问
     var title: some View{
@@ -48,9 +72,9 @@ struct SetGameView: View {
         }
     }
     
-    var threeMoreCard: some View{
-        Button("Add 3 Cards"){
-            setVM.dealThreeMoreCards()
+    var shuffle: some View{
+        Button("Shuffle"){
+            setVM.shuffle()
         }
     }
     
