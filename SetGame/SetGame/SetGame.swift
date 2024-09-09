@@ -17,12 +17,12 @@ struct SetGame{
     private(set) var cardsInPlay: [Card]
     private(set) var selectedCards: [Card] = []
     private(set) var matchedCards: [Card] = []
+    private(set) var cardsToDeal: [Card] = []
     
     init(){
         deck = Card.generateDeck()
         cardsInPlay = []
         // 初始发牌12张
-        dealCards(count: 12)
     }
     
     // 从牌堆中发牌
@@ -33,15 +33,21 @@ struct SetGame{
             // 先判断deck里面是否还有牌
             if let card = deck.popLast(){
                 cardsInPlay.append(card)
+                cardsToDeal.append(card)
             }
         }
     }
     
     // 发三张牌
     mutating func dealThreeCards(){
-        // 防止要发的牌过多
-        let count = min(deck.count, 3)
-        dealCards(count: count)
+        cardsToDeal.removeAll()
+        if cardsInPlay.isEmpty {
+            dealCards(count: 12)
+        } else{
+            // 防止要发的牌过多
+            let count = min(deck.count, 3)
+            dealCards(count: count)
+        }
     }
     
     mutating func shuffle(){
@@ -121,7 +127,6 @@ struct SetGame{
         cardsInPlay.removeAll()
         selectedCards.removeAll()
         matchedCards.removeAll()
-        dealCards(count: 12)
     }
     
     // 判断选中的三张卡片是否构成Set的方法

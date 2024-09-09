@@ -35,6 +35,10 @@ class SetGameVM: ObservableObject{
         setGame.deck
     }
     
+    var cardsToDeal: [Card]{
+        setGame.cardsToDeal
+    }
+    
     // 用户点击“deal 3 more cards”按钮
     func dealThreeMoreCards(){
         setGame.dealThreeCards()
